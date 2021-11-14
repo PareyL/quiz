@@ -221,7 +221,7 @@
                         @else
                         <div class="ans ml-2">
                             <label class="radio mb-auto mt-1" id="questionDiv1" for="question1">
-                                <input type="text" id="question1" name="Q{{$questions->id}}" value="">
+                                <input type="text" id="question1" name="Q{{$questions->id}}" value="0">
                                 <span></span>
                             </label>
                         </div>

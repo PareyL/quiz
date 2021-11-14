@@ -47,8 +47,7 @@ class UsersController extends Controller
                     $score = $score + 2;
                     $bonneRep = 1;
                     DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 2, 'input' => 0]);
-                } elseif($userScore == $user->score) {
-                    if ($input->input == $closest) {
+                } elseif ($input->input === $closest && $userScore == $user->score) {
                         DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 1, 'input' => 0]);
                         $score++;
                         $bonneRep = 1;
@@ -56,10 +55,6 @@ class UsersController extends Controller
                         $bonneRep = 0;
                         DB::table('users')->where('id', $input->id)->update(['input' => 0]);
                     }
-                } else {
-                    $bonneRep = 0;
-                    DB::table('users')->where('id', $input->id)->update(['input' => 0]);
-                }
             } else
             if (strval($rep) === strval($oldQuestion->$goodRep) && $userScore == $user->score) {
                 $score++;
