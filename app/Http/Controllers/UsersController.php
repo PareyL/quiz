@@ -41,11 +41,13 @@ class UsersController extends Controller
                 $score++;
                 $bonneRep = 1;
                 DB::table('users')->where('id', Auth::id())->update(['score' => $user->score + 1]);
-            } else if($userScore == $user->score)
+            } else if($userScore !== $user->score)
+                $bonneRep = 0;
+            else
                 $bonneRep = 2;
             $questions = DB::table('questions')->where('id', '=', $user->etape + 1)->first();
             if ($userScore == $user->score)
-            DB::table('users')->update(['etape' => $user->etape + 1]);
+            DB::table('users')->where('id', Auth::id())->update(['etape' => $user->etape + 1]);
         } else {
             $questions = DB::table('questions')->where('id', '=', $user->etape)->first();
         }
