@@ -144,7 +144,7 @@
                     </div>
                 @else
                     <div class="col-md-10 col-lg-10 bg-white p-3">
-                        <h2 class="border-bottom pb-3 text-justify">Hop Hop Hop pas trop vite tout le monde n'est pas prêt !</h2> <br/>
+                        <h2 class="border-bottom pb-3 text-justify">Hop Hop Hop pas trop vite {{$user->name}} tout le monde n'est pas prêt !</h2> <br/>
                         Tu peux commencer par lire les règles :<br/>
                         - Charier les autres peut être source de bonheur<br/>
                         - Gueuler auprès de l'organisateur ne résoudra pas ton problème<br/>
