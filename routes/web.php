@@ -84,7 +84,7 @@ Route::get('/nextQuestion', function () {
         $questions = DB::table('questions')->where('id', '=', $user->etape)->first();
     }
     $go = DB::table('ready')->first();
-    if ($user->etape+1 > DB::table('questions')->count())
+    if ($user->etape+1 > DB::table('questions')->count()+1)
         return view('scores', ['user'=> $user,
             'users' => $users,
             'questions'=>$oldQuestion,
