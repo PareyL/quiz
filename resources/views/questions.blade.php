@@ -16,6 +16,17 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+            .answers {
+                border: 1px solid lightgray;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                width: 100%;
+                box-shadow: inset 0 0 0 0.09px #fff;
+                -webkit-transition: all ease 0.8s;
+                -moz-transition: all ease 0.8s;
+                transition: all ease 0.8s;
+            }
         </style>
     </head>
     <body class="antialiased">
@@ -78,17 +89,23 @@
                 </table>
                 <button class="btn alert-success mt-5" id="next">Prochaine question</button>
             @else
-                <h1>Résultat...</h1>
-                @if($bonneRep)
-                    <div class="alert alert-success" role="alert">
+            <h2>Tu as répondu <br/> <span style="font-size: 24px;">{{$rep}}</span></h2>
+            <h2 class="mt-2 mb-3">La bonne réponse était <br/> <span style="font-size: 24px;">{{$rep2}}</span></h2>
+                @if($bonneRep == 1)
+                    <div class="alert alert-success mt-3" role="alert">
                         <h2>Bonne réponse !</h2>
                         <h3>Félicitations pour ce point durement gagné.</h3>
                     </div>
-                @else
-                    <div class="alert alert-danger" role="alert">
+                @elseif($bonneRep == 0)
+                    <div class="alert alert-danger mt-3" role="alert">
                         <h2>Mauvaise Réponse.</h2>
                         <h3>La prochaine sera la bonne !</h3>
                     </div>
+                @else
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <h2>Tu as rafraichi la page ben bravo...</h2>
+                    </div>
+
                 @endif
             <h2 class="pt-3 text-justify">Au cas où tu aurais oublié ton score, le voici : </h2> <br/>
             <h1 style="z-index: 20; text-align: center; font-size: 92px;">{{$score}}</h1>
@@ -104,6 +121,7 @@
                             <tr>
                                 <th scope="col">Pseudos</th>
                                 <th scope="col">Scores</th>
+                                <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -111,6 +129,13 @@
                             <tr>
                                 <td>{{$u->name}}</td>
                                 <td>{{$u->score}}</td>
+                                <td>
+                                    <form action="/deleteUser" method="post">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="userID" value="{{$u->id}}">
+                                        <button class="btn btn-danger" type="submit">Supprimer</button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
                             </tbody>
@@ -141,35 +166,46 @@
                     <form action="/answer" method="POST" id="question">
                         {{ csrf_field() }}
                         <input type="hidden" name="numQuestion" value="{{$questions->id}}">
+                        <input type="hidden" name="userScore" value="{{$user->score}}">
                     <div class="question bg-white p-3 border-bottom">
                         <div class="d-flex flex-row align-items-center question-title">
                             <h5 class="mt-1 ml-2">{{$questions->question}}</h5>
                         </div>
                         <div class="ans ml-2" style="display: none;">
-                            <label class="radio"> <input type="radio" name="Q{{$questions->id}}" value="0" checked="checked"> <span>0</span>
+                            <label class="radio">
+                                <input type="radio" name="Q{{$questions->id}}" value="0" checked="checked">
+                                <span>0</span>
                             </label>
                         </div>
                         @if(isset($questions->q1))
                         <div class="ans ml-2">
-                            <label class="radio"> <input type="radio" name="Q{{$questions->id}}" value="{{$questions->q1}}"> <span>{{$questions->q1}}</span>
+                            <label class="radio mb-auto mt-1 answers" id="questionDiv1" for="question1">
+                                <input type="radio" id="question1" name="Q{{$questions->id}}" value="{{$questions->q1}}" onchange="onClickRadio(1)">
+                                <span>{{$questions->q1}}</span>
                             </label>
                         </div>
                         @endif
                         @if(isset($questions->q2))
                         <div class="ans ml-2">
-                            <label class="radio"> <input type="radio" name="Q{{$questions->id}}" value="{{$questions->q2}}"> <span>{{$questions->q2}}</span>
+                            <label class="radio mb-auto mt-1 answers" id="questionDiv2" for="question2">
+                                <input type="radio" id="question2" name="Q{{$questions->id}}" value="{{$questions->q2}}" onchange="onClickRadio(2)">
+                                <span>{{$questions->q2}}</span>
                             </label>
                         </div>
                         @endif
                         @if(isset($questions->q3))
                         <div class="ans ml-2">
-                            <label class="radio"> <input type="radio" name="Q{{$questions->id}}" value="{{$questions->q3}}"> <span>{{$questions->q3}}</span>
+                            <label class="radio mb-auto mt-1 answers" id="questionDiv3" for="question3">
+                                <input type="radio" id="question3" name="Q{{$questions->id}}" value="{{$questions->q3}}" onchange="onClickRadio(3)">
+                                <span>{{$questions->q3}}</span>
                             </label>
                         </div>
                         @endif
                         @if(isset($questions->q4))
                         <div class="ans ml-2">
-                            <label class="radio"> <input type="radio" name="Q{{$questions->id}}" value="{{$questions->q4}}"> <span>{{$questions->q4}}</span>
+                            <label class="radio mb-auto mt-1 answers" id="questionDiv4" for="question4">
+                                <input type="radio" id="question4" name="Q{{$questions->id}}" value="{{$questions->q4}}" onchange="onClickRadio(4)">
+                                <span>{{$questions->q4}}</span>
                             </label>
                         </div>
                         @endif
@@ -183,6 +219,30 @@
     </div>
 
     <script>
+        function my_onkeydown_handler( event ) {
+            switch (event.keyCode) {
+                case 116 : // 'F5'
+                    event.preventDefault();
+                    event.keyCode = 0;
+                    window.status = "F5 disabled";
+                    break;
+            }
+        }
+        document.addEventListener("keydown", my_onkeydown_handler);
+        function onClickRadio(id){
+            for (i = 1; i <= 4; i++)
+                if (i !== id) {
+                    document.getElementById("questionDiv"+i).style.boxShadow = "inset 0 0 0 0.09px #fff"
+                    document.getElementById("questionDiv"+i).style.color = "#000"
+                    document.getElementById("questionDiv"+i).style.fontWeight = "normal"
+                }
+            let w = document.getElementById("questionDiv" + id).offsetWidth;
+            console.log(w)
+            document.getElementById("questionDiv"+id).style.boxShadow = "inset "+w+"px 0 0 0.09px #0275d8"
+            document.getElementById("questionDiv"+id).style.color = "#fff"
+            document.getElementById("questionDiv"+id).style.fontWeight = "bold"
+        }
+
         function startTimer(duration, display) {
             var start = Date.now(),
                 diff,
@@ -243,7 +303,7 @@
             }
             @else
                 console.log('1 et 0')
-                var thirtySec = 20,
+                var thirtySec = 15,
                     display = document.querySelector('#time');
                 @if($isAdmin)
                     setTimeout(function() {

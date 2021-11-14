@@ -33,15 +33,18 @@ class UsersController extends Controller
         DB::table('ready')->update(['next' => 1]);
         $isAdmin = $user->admin;
         $pause = DB::table('ready')->first();
+        $userScore = $_POST['userScore'];
         if (isset($_POST['Q'.$_POST['numQuestion']])) {
             $rep = $_POST['Q' . $_POST['numQuestion']];
             $goodRep = 'q' . $oldQuestion->reponse;
-            if (strval($rep) === strval($oldQuestion->$goodRep)) {
+            if (strval($rep) === strval($oldQuestion->$goodRep) && $userScore == $user->score) {
                 $score++;
                 $bonneRep = 1;
                 DB::table('users')->where('id', Auth::id())->update(['score' => $user->score + 1]);
-            }
+            } else if($userScore !== $user->score)
+                $bonneRep = 2;
             $questions = DB::table('questions')->where('id', '=', $user->etape + 1)->first();
+            if ($userScore == $user->score)
             DB::table('users')->update(['etape' => $user->etape + 1]);
         } else {
             $questions = DB::table('questions')->where('id', '=', $user->etape)->first();
@@ -54,12 +57,16 @@ class UsersController extends Controller
                                         'id' => $user->etape,
                                         'score' => $score,
                                         'bonneRep' => $bonneRep,
+                                        'rep' => $rep,
+                                        'rep2' => strval($oldQuestion->$goodRep),
                                         'nbrQuestions' => DB::table('questions')->count(),
                                         'ready' => $go,
                                         'isAdmin' => $isAdmin]);
         return view('questions', ['user'=> $user,
                                         'users' => $users,
                                         'questions'=>$questions,
+                                        'rep' => $rep,
+                                        'rep2' => strval($oldQuestion->$goodRep),
                                         'oldQuestions'=>$oldQuestion,
                                         'id' => $user->etape+1,
                                         'score' => $score,

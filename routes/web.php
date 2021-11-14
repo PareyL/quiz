@@ -61,6 +61,10 @@ use App\Http\Controllers\UsersController;
     Route::post('/setGo', function () {
         DB::table('ready')->update(['go' => 1]);
     });
+    Route::post('/deleteUser', function () {
+        DB::table('users')->delete($_POST['userID']);
+        return back();
+    });
 
 Route::get('/nextQuestion', function () {
     if(!Auth::user() || !Auth::check())
