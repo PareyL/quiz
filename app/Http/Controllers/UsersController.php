@@ -37,6 +37,30 @@ class UsersController extends Controller
         if (isset($_POST['Q'.$_POST['numQuestion']])) {
             $rep = $_POST['Q' . $_POST['numQuestion']];
             $goodRep = 'q' . $oldQuestion->reponse;
+            if ($oldQuestion->q2 === ""){
+                DB::table('users')->where('id', Auth::id())->update(["input" => $_POST['Q' . $_POST['numQuestion']]]);
+                $goodRep = 'q' . $oldQuestion->reponse;
+                $input = DB::table('users')->where('id', Auth::id())->first();
+                $inputValue = DB::table('users')->select(['input'])->get()->toArray();
+                $closest = $this->getClosest(intval($oldQuestion->$goodRep), json_decode(json_encode($inputValue), true));
+                if ($input->input == $oldQuestion->$goodRep && $userScore == $user->score) {
+                    $score = $score + 2;
+                    $bonneRep = 1;
+                    DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 2, 'input' => 0]);
+                } elseif($userScore == $user->score) {
+                    if ($input->input == $closest) {
+                        DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 1, 'input' => 0]);
+                        $score++;
+                        $bonneRep = 1;
+                    } else {
+                        $bonneRep = 0;
+                        DB::table('users')->where('id', $input->id)->update(['input' => 0]);
+                    }
+                } else {
+                    $bonneRep = 0;
+                    DB::table('users')->where('id', $input->id)->update(['input' => 0]);
+                }
+            } else
             if (strval($rep) === strval($oldQuestion->$goodRep) && $userScore == $user->score) {
                 $score++;
                 $bonneRep = 1;
@@ -77,4 +101,15 @@ class UsersController extends Controller
                                         'ready' => $go,
                                         'isAdmin' => $isAdmin]);
     }
+
+    function getClosest($search, $arr) {
+        $closest = null;
+        foreach ($arr as $item) {
+            if ($closest === null || abs($search - $closest) > abs($item['input'] - $search)) {
+                $closest = $item['input'];
+            }
+        }
+        return $closest;
+    }
+
 }

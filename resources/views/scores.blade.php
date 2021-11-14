@@ -47,16 +47,20 @@
             <table class="mt-3 table">
             <thead>
             <tr>
+                <th scope="col">Position</th>
                 <th scope="col">Pseudos</th>
                 <th scope="col">Scores</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($users as $u)
-            <tr>
-                <td>{{$u->name}}</td>
-                <td>{{$u->score}}</td>
-            </tr>
+            @foreach($users as $key=>$u)
+                @if($key > 2)
+                    <tr>
+                        <td>{{$key}}</td>
+                        <td>{{$u->name}}</td>
+                        <td>{{$u->score}}</td>
+                    </tr>
+                @endif
             @endforeach
             </tbody>
         </table>

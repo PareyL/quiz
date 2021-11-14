@@ -42,31 +42,39 @@
                         <label class="radio"> <input type="radio" name="Q{{$oldQuestions->id}}" value="0" checked="checked"> <span>0</span>
                         </label>
                     </div>
-                    @if(isset($questions->q1))
-                    <div class="ans ml-2">
-                        <label class="p-2 w-100 radio @if($oldQuestions->reponse===1) alert-success @else alert-danger @endif">
-                            <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q1}}" @if($oldQuestions->reponse===1) checked="checked" @endif> <span>{{$oldQuestions->q1}}</span>
-                        </label>
-                    </div>
-                    @endif
-                    @if(isset($questions->q2))
-                    <div class="ans ml-2">
-                        <label class="p-2 w-100 radio @if($oldQuestions->reponse===2) alert-success @else alert-danger @endif">
-                            <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q2}}" @if($oldQuestions->reponse===2) checked="checked" @endif> <span>{{$oldQuestions->q2}}</span>
-                        </label>
-                    </div>
-                    @endif
-                    @if(isset($questions->q3))
-                    <div class="ans ml-2">
-                        <label class="p-2 w-100 radio @if($oldQuestions->reponse===3) alert-success @else alert-danger @endif">
-                            <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q3}}" @if($oldQuestions->reponse===3) checked="checked" @endif> <span>{{$oldQuestions->q3}}</span>
-                        </label>
-                    </div>
-                    @endif
-                    @if(isset($questions->q4))
+                    @if(isset($questions->q2) && $questions->q2 !== "")
+                        @if(isset($questions->q1) && $questions->q1 !== "")
+                        <div class="ans ml-2">
+                            <label class="p-2 w-100 radio @if($oldQuestions->reponse===1) alert-success @else alert-danger @endif">
+                                <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q1}}" @if($oldQuestions->reponse===1) checked="checked" @endif> <span>{{$oldQuestions->q1}}</span>
+                            </label>
+                        </div>
+                        @endif
+                        @if(isset($questions->q2) && $questions->q2 !== "")
+                        <div class="ans ml-2">
+                            <label class="p-2 w-100 radio @if($oldQuestions->reponse===2) alert-success @else alert-danger @endif">
+                                <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q2}}" @if($oldQuestions->reponse===2) checked="checked" @endif> <span>{{$oldQuestions->q2}}</span>
+                            </label>
+                        </div>
+                        @endif
+                        @if(isset($questions->q3) && $questions->q3 !== "")
+                        <div class="ans ml-2">
+                            <label class="p-2 w-100 radio @if($oldQuestions->reponse===3) alert-success @else alert-danger @endif">
+                                <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q3}}" @if($oldQuestions->reponse===3) checked="checked" @endif> <span>{{$oldQuestions->q3}}</span>
+                            </label>
+                        </div>
+                        @endif
+                        @if(isset($questions->q4) && $questions->q4 !== "")
+                        <div class="ans ml-2">
+                            <label class="p-2 w-100 radio @if($oldQuestions->reponse===4) alert-success @else alert-danger @endif">
+                                <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q4}}" @if($oldQuestions->reponse===4) checked="checked" @endif> <span>{{$oldQuestions->q4}}</span>
+                            </label>
+                        </div>
+                        @endif
+                    @else
                     <div class="ans ml-2">
                         <label class="p-2 w-100 radio @if($oldQuestions->reponse===4) alert-success @else alert-danger @endif">
-                            <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q4}}" @if($oldQuestions->reponse===4) checked="checked" @endif> <span>{{$oldQuestions->q4}}</span>
+                            <input type="text" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q1}}"> <span>{{$oldQuestions->q1}}</span>
                         </label>
                     </div>
                     @endif
@@ -144,7 +152,7 @@
                     </div>
                 @else
                     <div class="col-md-10 col-lg-10 bg-white p-3">
-                        <h2 class="border-bottom pb-3 text-justify">Hop Hop Hop pas trop vite {{$user->name}} tout le monde n'est pas prêt !</h2> <br/>
+                        <h2 class="border-bottom pb-3 text-justify">Hop Hop Hop pas trop vite {{$user->name}}, tout le monde n'est pas prêt !</h2> <br/>
                         Tu peux commencer par lire les règles :<br/>
                         - Charier les autres peut être source de bonheur<br/>
                         - Gueuler auprès de l'organisateur ne résoudra pas ton problème<br/>
@@ -177,35 +185,44 @@
                                 <span>0</span>
                             </label>
                         </div>
-                        @if(isset($questions->q1))
+                        @if(isset($questions->q2) && $questions->q2 !== "")
+                            @if(isset($questions->q1) && $questions->q1 !== "")
+                            <div class="ans ml-2">
+                                <label class="radio mb-auto mt-1 answers" id="questionDiv1" for="question1">
+                                    <input type="radio" id="question1" name="Q{{$questions->id}}" value="{{$questions->q1}}" onchange="onClickRadio(1)">
+                                    <span>{{$questions->q1}}</span>
+                                </label>
+                            </div>
+                            @endif
+                            @if(isset($questions->q2) && $questions->q2 !== "")
+                            <div class="ans ml-2">
+                                <label class="radio mb-auto mt-1 answers" id="questionDiv2" for="question2">
+                                    <input type="radio" id="question2" name="Q{{$questions->id}}" value="{{$questions->q2}}" onchange="onClickRadio(2)">
+                                    <span>{{$questions->q2}}</span>
+                                </label>
+                            </div>
+                            @endif
+                            @if(isset($questions->q3) && $questions->q3 !== "")
+                            <div class="ans ml-2">
+                                <label class="radio mb-auto mt-1 answers" id="questionDiv3" for="question3">
+                                    <input type="radio" id="question3" name="Q{{$questions->id}}" value="{{$questions->q3}}" onchange="onClickRadio(3)">
+                                    <span>{{$questions->q3}}</span>
+                                </label>
+                            </div>
+                            @endif
+                            @if(isset($questions->q4) && $questions->q4 !== "")
+                            <div class="ans ml-2">
+                                <label class="radio mb-auto mt-1 answers" id="questionDiv4" for="question4">
+                                    <input type="radio" id="question4" name="Q{{$questions->id}}" value="{{$questions->q4}}" onchange="onClickRadio(4)">
+                                    <span>{{$questions->q4}}</span>
+                                </label>
+                            </div>
+                            @endif
+                        @else
                         <div class="ans ml-2">
-                            <label class="radio mb-auto mt-1 answers" id="questionDiv1" for="question1">
-                                <input type="radio" id="question1" name="Q{{$questions->id}}" value="{{$questions->q1}}" onchange="onClickRadio(1)">
-                                <span>{{$questions->q1}}</span>
-                            </label>
-                        </div>
-                        @endif
-                        @if(isset($questions->q2))
-                        <div class="ans ml-2">
-                            <label class="radio mb-auto mt-1 answers" id="questionDiv2" for="question2">
-                                <input type="radio" id="question2" name="Q{{$questions->id}}" value="{{$questions->q2}}" onchange="onClickRadio(2)">
-                                <span>{{$questions->q2}}</span>
-                            </label>
-                        </div>
-                        @endif
-                        @if(isset($questions->q3))
-                        <div class="ans ml-2">
-                            <label class="radio mb-auto mt-1 answers" id="questionDiv3" for="question3">
-                                <input type="radio" id="question3" name="Q{{$questions->id}}" value="{{$questions->q3}}" onchange="onClickRadio(3)">
-                                <span>{{$questions->q3}}</span>
-                            </label>
-                        </div>
-                        @endif
-                        @if(isset($questions->q4))
-                        <div class="ans ml-2">
-                            <label class="radio mb-auto mt-1 answers" id="questionDiv4" for="question4">
-                                <input type="radio" id="question4" name="Q{{$questions->id}}" value="{{$questions->q4}}" onchange="onClickRadio(4)">
-                                <span>{{$questions->q4}}</span>
+                            <label class="radio mb-auto mt-1" id="questionDiv1" for="question1">
+                                <input type="text" id="question1" name="Q{{$questions->id}}" value="">
+                                <span></span>
                             </label>
                         </div>
                         @endif
@@ -230,7 +247,20 @@
         }
         document.addEventListener("keydown", my_onkeydown_handler);
         function onClickRadio(id){
-            for (i = 1; i <= 4; i++)
+            var q = 0;
+            @if(isset($questions->q1) && $questions->q1 !== "")
+                q++;
+            @endif
+            @if(isset($questions->q2) && $questions->q2 !== "")
+                q++;
+            @endif
+            @if(isset($questions->q3) && $questions->q3 !== "")
+                q++;
+            @endif
+            @if(isset($questions->q4) && $questions->q4 !== "")
+                q++;
+            @endif
+            for (i = 1; i <= q; i++)
                 if (i !== id) {
                     document.getElementById("questionDiv"+i).style.boxShadow = "inset 0 0 0 0.09px #fff"
                     document.getElementById("questionDiv"+i).style.color = "#000"
