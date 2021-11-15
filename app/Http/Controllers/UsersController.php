@@ -28,10 +28,12 @@ class UsersController extends Controller
         $bonneRep = 0;
         $users = DB::table('users')->where('admin', 0)->orderBy('score', 'DESC')->get();
         $user = DB::table('users')->where('id', Auth::id())->first();
+        $isAdmin = $user->admin;
+        if (!$isAdmin)
+            DB::table('users')->where('id', Auth::id())->update(['repondu'=>0]);
         $score = $user->score;
         $oldQuestion = DB::table('questions')->where('id', '=',$_POST['numQuestion'])->first();
         DB::table('ready')->update(['next' => 1]);
-        $isAdmin = $user->admin;
         $pause = DB::table('ready')->first();
         $userScore = $_POST['userScore'];
         if (isset($_POST['Q'.$_POST['numQuestion']])) {

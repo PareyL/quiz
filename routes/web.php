@@ -54,8 +54,21 @@ use App\Http\Controllers\UsersController;
         $next = DB::table('ready')->first();
         return $next->next;
     });
+    Route::get('/getRepondu', function () {
+        $rep = 1;
+        $repondu = DB::table('users')->get();
+        foreach ($repondu as $r){
+            if ($r->repondu === 0)
+                $rep = 0;
+        }
+        return $rep;
+    });
+    Route::post('/setRepondu', function () {
+        DB::table('users')->where('id', Auth::id())->update(['repondu'=>1]);
+    });
 
-    Route::post('/setNext', function () {
+
+Route::post('/setNext', function () {
         DB::table('ready')->update(['next' => 0]);
     });
     Route::post('/setGo', function () {

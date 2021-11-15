@@ -290,7 +290,24 @@
                 display.textContent = seconds;
 
                 if (diff === 0) {
-                    $("#question").submit();
+                    @if(!$isAdmin)
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        method: "POST",
+                        url: "/setRepondu",
+                        success:
+                            function(data){
+                                console.log(data)
+                                if (data === "1") {
+                                    $("#question").submit();
+                                }
+                            }
+                    });
+                    @endif
                 }
             };
             // we don't want to wait a full second before the timer starts
@@ -298,6 +315,26 @@
             setInterval(timer, 1000);
         }
         $(document).ready(function(){
+        @if($ready->next === 0)
+            function sendRequestRepondu(){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "/getRepondu",
+                    success:
+                        function(data){
+                            console.log(data)
+                            if (data === "1") {
+                                $("#question").submit();
+                            }
+                        }
+                });
+            }
+            setInterval(sendRequestRepondu, 500);
+        @endif
             @if($ready->go === 0 || $ready->next === 1)
             console.log('0 et 1')
                 @if($ready->go === 0)
@@ -345,6 +382,7 @@
             @endif
         });
         $("#next").click(function(){
+            console.log('next')
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
