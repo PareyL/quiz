@@ -73,8 +73,8 @@
                         @endif
                     @else
                     <div class="ans ml-2">
-                        <label class="p-2 w-100 radio @if($oldQuestions->reponse===4) alert-success @else alert-danger @endif">
-                            <input type="text" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q1}}"> <span>{{$oldQuestions->q1}}</span>
+                        <label class="p-2 w-100 radio alert-success">
+                            <span>{{$oldQuestions->q1}}</span>
                         </label>
                     </div>
                     @endif
@@ -97,26 +97,23 @@
                 </table>
                 <button class="btn alert-success mt-5" id="next">Prochaine question</button>
             @else
-            <h2>Tu as répondu <br/> <span style="font-size: 24px;">{{$rep}}</span></h2>
-            <h2 class="mt-2 mb-3">La bonne réponse était <br/> <span style="font-size: 24px;">{{$rep2}}</span></h2>
+        <div>
                 @if($bonneRep == 1)
                     <div class="alert alert-success mt-3" role="alert">
-                        <h2>Bonne réponse !</h2>
-                        <h3>Félicitations pour ce point durement gagné.</h3>
-                    </div>
+                        <h1>Bonne réponse</h1>
                 @elseif($bonneRep == 0)
                     <div class="alert alert-danger mt-3" role="alert">
-                        <h2>Mauvaise Réponse.</h2>
-                        <h3>La prochaine sera la bonne !</h3>
-                    </div>
+                        <h1 style="text-align: center">Mauvaise Réponse</h1>
                 @else
                     <div class="alert alert-warning mt-3" role="alert">
                         <h2>Tu as rafraichi la page ben bravo...</h2>
-                    </div>
-
                 @endif
-            <h2 class="pt-3 text-justify">Au cas où tu aurais oublié ton score, le voici : </h2> <br/>
-            <h1 style="z-index: 20; text-align: center; font-size: 92px;">{{$score}}</h1>
+                        <h3 class="mt-4">Tu as répondu <br/> <span style="font-size: 20px; font-weight: bold; font-family: 'Courier New'!important;">{{$rep}}</span></h3>
+                        <h3 class="mt-2 mb-3">La bonne réponse était <br/> <span style="font-size: 20px; font-weight: bold; font-family: 'Courier New'!important;">{{$rep2}}</span></h3>
+                    </div>
+                    <h1 class="pt-3" style="text-align: center;">Score</h1>
+                    <h2 style="z-index: 20; font-size: 92px; text-align: center;">{{$score}}</h2>
+
             @endif
         @else
         <div class="d-flex justify-content-center" style="flex-direction: column">
@@ -152,23 +149,26 @@
                     </div>
                 @else
                     <div class="col-md-10 col-lg-10 bg-white p-3">
-                        <h2 class="border-bottom pb-3 text-justify">Hop Hop Hop pas trop vite {{$user->name}}, tout le monde n'est pas prêt !</h2> <br/>
-                        Tu peux commencer par lire les règles :<br/>
-                        - Charier les autres peut être source de bonheur<br/>
-                        - Gueuler auprès de l'organisateur ne résoudra pas ton problème<br/>
-                        - Ce site est développé par MOI donc si tu veux pas perdre des points attention !<br/>
-                        - Il y a plusieurs types de questions : Vrai/Faux, 4 réponses et une questions où il faut écrire la réponse. Pour ce dernier type il faudra écrire un nombre qui devra etre le plus proche possible de la réponse<br/>
-                        - J'espère que tout le monde est prêt sinon c'est surement la faute à mamie...<br/>
+                        <h2 class="border-bottom pb-3 text-justify text-danger">Hop Hop Hop pas trop vite {{$user->name}}, tout le monde n'est pas prêt !</h2> <br/>
+                        Tu peux commencer par lire les règles :
+                        <ul>
+                            <li>Charier les autres peut être source de bonheur</li>
+                            <li>Gueuler auprès de l'organisateur ne résoudra pas ton problème</li>
+                            <li>Ce site est développé par MOI donc si tu veux pas perdre des points attention !</li>
+                            <li>Il y a plusieurs types de questions : Vrai/Faux, 4 réponses et une questions où il faut écrire la réponse. Pour ce dernier type il faudra écrire un nombre qui devra etre le plus proche possible de la réponse</li>
+                            <li>J'espère que tout le monde est prêt sinon c'est surement la faute à mamie...</li>
+                        </ul>
                     </div>
                 @endif
             @else
-            <div style="margin-left: auto; margin-right: auto;">Il reste <span id="time">30</span> secondes !</div>
-            @if(!$isAdmin)<div><h4>Joueur : {{$user->name}}</h4><h4>Score : {{isset($score)? $score : 0}}</h4></div>@endif
+            @if(!$isAdmin)<p><span style="font-weight: bold">Joueur</span> : {{$user->name}}</p>@endif
+            <div style="text-align-last: center;" class="col-md-10 col-lg-10"><span id="time" style="font-size: 38px; margin-left: auto; margin-right: auto; width: auto;">30</span></div>
             <div class="col-md-10 col-lg-10">
                 <div class="border">
-                    <div class="question bg-white p-3 border-bottom">
+                    <div class="question p-3 border-bottom" style="background-color: rgb(2 117 216);">
                         <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                            <h4>Noël Quiz</h4><span>({{$user->etape}} sur {{$nbrQuestions}})</span>
+                            @if(!$isAdmin)<div><p style="margin-bottom: 0px; font-size: 24px; color: white;"><span style="font-weight: bold">Score</span> : {{isset($score)? $score : 0}}</p></div>@else<h4 style="color: white;">Quiz de Noël</h4>@endif
+                            <span style="color: white;">({{$user->etape}} sur {{$nbrQuestions}})</span>
                         </div>
                     </div>
                     <form action="/answer" method="POST" id="question">
@@ -236,6 +236,7 @@
     </div>
 
     <script>
+        let finish = 0;
         function my_onkeydown_handler( event ) {
             switch (event.keyCode) {
                 case 116 : // 'F5'
@@ -280,7 +281,10 @@
             function timer() {
                 // get the number of seconds that have elapsed since
                 // startTimer() was called
-                diff = duration - (((Date.now() - start) / 1000) | 0);
+                if (finish)
+                    diff = 0
+                else
+                    diff = duration - (((Date.now() - start) / 1000) | 0);
 
                 // does the same job as parseInt truncates the float
                 seconds = (diff % 60) | 0;
@@ -299,6 +303,7 @@
                     $.ajax({
                         method: "POST",
                         url: "/setRepondu",
+                        data: {"rep":$("#question1").val()},
                         success:
                             function(data){
                                 console.log(data)
@@ -307,7 +312,9 @@
                                 }
                             }
                     });
+                    diff = 1;
                     @endif
+                finish = 1;
                 }
             };
             // we don't want to wait a full second before the timer starts
@@ -370,7 +377,7 @@
             }
             @else
                 console.log('1 et 0')
-                var thirtySec = 30,
+                var thirtySec = 15,
                     display = document.querySelector('#time');
                 @if($isAdmin)
                     setTimeout(function() {

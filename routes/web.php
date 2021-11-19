@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -24,12 +25,14 @@ use App\Http\Controllers\UsersController;
 
     Route::get('/questions/{id}', function ($id) {
         if(!Auth::user())
-            return view('welcome');
+            return redirect('welcome');
         $users = DB::table('users')->where('admin', 0)->get();
         $user = DB::table('users')->where('id', Auth::id())->first();
         $questions = DB::table('questions')->where('id', '=', $user->etape)->first();
         $go = DB::table('ready')->first();
         $isAdmin = $user->admin;
+        if (!$isAdmin)
+            DB::table('users')->where('id', Auth::id())->update(['repondu'=>0]);
         $pause = 0;
         return view('questions', ['user' => $user,
                                         'users' => $users,
@@ -63,7 +66,8 @@ use App\Http\Controllers\UsersController;
         }
         return $rep;
     });
-    Route::post('/setRepondu', function () {
+    Route::post('/setRepondu', function (Request $request) {
+        DB::table('users')->where('id', Auth::id())->update(["input" => $request->request->get('rep')]);
         DB::table('users')->where('id', Auth::id())->update(['repondu'=>1]);
     });
 
@@ -88,6 +92,10 @@ Route::get('/nextQuestion', function () {
     $score = $user->score;
     $oldQuestion = DB::table('questions')->where('id', '=',$user->etape)->first();
     $isAdmin = $user->admin;
+    if (!$isAdmin) {
+        DB::table('users')->where('id', Auth::id())->update(['repondu' => 0]);
+        DB::table('users')->where('id', Auth::id())->update([ 'input' => 0]);
+    }
     $pause = DB::table('ready')->first();
     if (isset($_POST['Q'.$user->etape])) {
         $rep = $_POST['Q' . $user->etape];

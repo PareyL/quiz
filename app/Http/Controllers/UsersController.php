@@ -29,8 +29,6 @@ class UsersController extends Controller
         $users = DB::table('users')->where('admin', 0)->orderBy('score', 'DESC')->get();
         $user = DB::table('users')->where('id', Auth::id())->first();
         $isAdmin = $user->admin;
-        if (!$isAdmin)
-            DB::table('users')->where('id', Auth::id())->update(['repondu'=>0]);
         $score = $user->score;
         $oldQuestion = DB::table('questions')->where('id', '=',$_POST['numQuestion'])->first();
         DB::table('ready')->update(['next' => 1]);
@@ -40,7 +38,6 @@ class UsersController extends Controller
             $rep = $_POST['Q' . $_POST['numQuestion']];
             $goodRep = 'q' . $oldQuestion->reponse;
             if ($oldQuestion->q2 === ""){
-                DB::table('users')->where('id', Auth::id())->update(["input" => $_POST['Q' . $_POST['numQuestion']]]);
                 $goodRep = 'q' . $oldQuestion->reponse;
                 $input = DB::table('users')->where('id', Auth::id())->first();
                 $inputValue = DB::table('users')->select(['input'])->get()->toArray();
@@ -48,14 +45,13 @@ class UsersController extends Controller
                 if ($input->input == $oldQuestion->$goodRep && $userScore == $user->score) {
                     $score = $score + 2;
                     $bonneRep = 1;
-                    DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 2, 'input' => 0]);
+                    DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 2]);
                 } elseif ($input->input === $closest && $userScore == $user->score) {
-                        DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 1, 'input' => 0]);
+                        DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 1]);
                         $score++;
                         $bonneRep = 1;
                     } else {
                         $bonneRep = 0;
-                        DB::table('users')->where('id', $input->id)->update(['input' => 0]);
                     }
             } else
             if (strval($rep) === strval($oldQuestion->$goodRep) && $userScore == $user->score) {
