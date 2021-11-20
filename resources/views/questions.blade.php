@@ -348,14 +348,14 @@
                         }
                 });
             }
-            setInterval(sendRequestRepondu, 1000);
+            setInterval(sendRequestRepondu, 5000);
         @endif
             @if($ready->go === 0 || $ready->next === 1)
             console.log('0 et 1')
                 @if($ready->go === 0)
-                    setInterval(sendRequestReady, 1000);
+                    setInterval(sendRequestReady, 5000);
                 @elseif($ready->next === 1)
-                    setInterval(sendRequestNext, 1000);
+                    setInterval(sendRequestNext, 5000);
                 @endif
             function sendRequestReady(){
                 $.ajax({
