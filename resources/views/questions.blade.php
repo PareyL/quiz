@@ -27,6 +27,9 @@
                 -moz-transition: all ease 0.8s;
                 transition: all ease 0.8s;
             }
+            #l1, #l2, #l3, #l4, #l5 {
+                opacity: 0;
+            }
         </style>
     </head>
     <body class="antialiased">
@@ -152,11 +155,11 @@
                         <h2 class="border-bottom pb-3 text-justify text-danger">Hop Hop Hop pas trop vite {{$user->name}}, tout le monde n'est pas prêt !</h2> <br/>
                         Tu peux commencer par lire les règles :
                         <ul>
-                            <li>Charier les autres peut être source de bonheur</li>
-                            <li>Gueuler auprès de l'organisateur ne résoudra pas ton problème</li>
-                            <li>Ce site est développé par MOI donc si tu veux pas perdre des points attention !</li>
-                            <li>Il y a plusieurs types de questions : Vrai/Faux, 4 réponses et une questions où il faut écrire la réponse. Pour ce dernier type il faudra écrire un nombre qui devra etre le plus proche possible de la réponse</li>
-                            <li>J'espère que tout le monde est prêt sinon c'est surement la faute à mamie...</li>
+                            <li id="l1">Charier les autres peut être source de bonheur</li>
+                            <li id="l2">Gueuler auprès de l'organisateur ne résoudra pas ton problème</li>
+                            <li id="l3">Ce site est développé par MOI donc si tu veux pas perdre des points attention !</li>
+                            <li id="l4">Il y a plusieurs types de questions : Vrai/Faux, 4 réponses et une questions où il faut écrire la réponse. Pour ce dernier type il faudra écrire un nombre qui devra etre le plus proche possible de la réponse</li>
+                            <li id="l5">J'espère que tout le monde est prêt sinon c'est surement la faute à mamie...</li>
                         </ul>
                     </div>
                 @endif
@@ -322,6 +325,11 @@
             setInterval(timer, 1000);
         }
         $(document).ready(function(){
+            for (let i = 1; i <= 5; i++)
+                if (i===1)
+                    $("#l"+i).delay(500).animate({"opacity": "1"}, 700);
+                else
+                    $("#l"+i).delay(2000*i-1).animate({"opacity": "1"}, 700);
         @if($ready->next === 0)
             function sendRequestRepondu(){
                 $.ajaxSetup({
