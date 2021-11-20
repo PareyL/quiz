@@ -240,6 +240,7 @@
 
     <script>
         let finish = 0;
+        let send = 0;
         function my_onkeydown_handler( event ) {
             switch (event.keyCode) {
                 case 116 : // 'F5'
@@ -344,11 +345,13 @@
                             console.log(data)
                             if (data === "1") {
                                 $("#question").submit();
+                                send = 1;
                             }
                         }
                 });
             }
-            setInterval(sendRequestRepondu, 1000);
+            if (send === 0)
+                setInterval(sendRequestRepondu, 1000);
         @endif
             @if($ready->go === 0 || $ready->next === 1)
             console.log('0 et 1')
