@@ -240,6 +240,7 @@
 
     <script>
         let finish = 0;
+        let receive = 0;
         let send = 0;
         function my_onkeydown_handler( event ) {
             switch (event.keyCode) {
@@ -297,8 +298,9 @@
 
                 display.textContent = seconds;
 
-                if (diff === 0) {
+                if (diff === 0 && send === 0) {
                     @if(!$isAdmin)
+                    console.log(send)
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -309,11 +311,8 @@
                         url: "/setRepondu",
                         data: {"rep":$("#question1").val(), "nbrQ": {{$user->etape}}},
                         success:
-                            function(data){
-                                console.log(data)
-                                if (data === "1") {
-                                    $("#question").submit();
-                                }
+                            function(){
+                                    send = 1;
                             }
                     });
                     diff = 1;
@@ -333,6 +332,7 @@
                     $("#l"+i).delay(2000*i-1).animate({"opacity": "1"}, 700);
         @if($ready->next === 0)
             function sendRequestRepondu(){
+                console.log(receive)
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -345,12 +345,12 @@
                             console.log(data)
                             if (data === "1") {
                                 $("#question").submit();
-                                send = 1;
+                                receive = 1;
                             }
                         }
                 });
             }
-            if (send === 0)
+            if (receive === 0)
                 setInterval(sendRequestRepondu, 1000);
         @endif
             @if($ready->go === 0 || $ready->next === 1)
@@ -388,7 +388,7 @@
             }
             @else
                 console.log('1 et 0')
-                var thirtySec = 45,
+                var thirtySec = 10,
                     display = document.querySelector('#time');
                 @if($isAdmin)
                     setTimeout(function() {
