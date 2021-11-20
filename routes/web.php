@@ -59,13 +59,12 @@ use App\Http\Controllers\UsersController;
     });
     Route::get('/getRepondu', function () {
         $rep = 1;
-        $repondu = DB::table('users')->get();
-        foreach ($repondu as $r){
-            if ($r->repondu === 0)
-                $rep = 0;
-        }
+        $repondu = DB::table('users')->where('repondu', 0)->get();
+        if (sizeof($repondu) !== 0)
+            $rep = 0;
         return $rep;
     });
+
     Route::post('/setRepondu', function (Request $request) {
         $oldQuestion = DB::table('questions')->where('id', '=', $request->request->get('nbrQ'))->first();
         if ($oldQuestion->q2 === "")
