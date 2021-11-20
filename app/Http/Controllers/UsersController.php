@@ -53,15 +53,16 @@ class UsersController extends Controller
                     } else {
                         $bonneRep = 0;
                     }
-            } else
-            if (strval($rep) === strval($oldQuestion->$goodRep) && $userScore == $user->score) {
-                $score++;
-                $bonneRep = 1;
-                DB::table('users')->where('id', Auth::id())->update(['score' => $user->score + 1]);
-            } else if($userScore !== $user->score)
-                $bonneRep = 0;
-            else
-                $bonneRep = 2;
+            } else {
+                if (strval($rep) === strval($oldQuestion->$goodRep) && $userScore == $user->score) {
+                    $score++;
+                    $bonneRep = 1;
+                    DB::table('users')->where('id', Auth::id())->update(['score' => $user->score + 1]);
+                } else if ($userScore !== $user->score)
+                    $bonneRep = 0;
+                else
+                    $bonneRep = 2;
+            }
             $questions = DB::table('questions')->where('id', '=', $oldQuestion->id + 1)->first();
             if ($userScore == $user->score)
                 DB::table('users')->where('id', Auth::id())->update(['etape' => $oldQuestion->id + 1]);
