@@ -306,7 +306,7 @@
                     $.ajax({
                         method: "POST",
                         url: "/setRepondu",
-                        data: {"rep":$("#question1").val()},
+                        data: {"rep":$("#question1").val(), "nbrQ": {{$user->etape}}},
                         success:
                             function(data){
                                 console.log(data)

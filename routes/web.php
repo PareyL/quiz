@@ -67,7 +67,9 @@ use App\Http\Controllers\UsersController;
         return $rep;
     });
     Route::post('/setRepondu', function (Request $request) {
-        DB::table('users')->where('id', Auth::id())->update(["input" => $request->request->get('rep')]);
+        $oldQuestion = DB::table('questions')->where('id', '=', $request->request->get('nbrQ'))->first();
+        if ($oldQuestion->q2 === "")
+            DB::table('users')->where('id', Auth::id())->update(["input" => $request->request->get('rep')]);
         DB::table('users')->where('id', Auth::id())->update(['repondu'=>1]);
     });
 
