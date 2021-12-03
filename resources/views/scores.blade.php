@@ -27,24 +27,207 @@
                 user-select: none;
                 z-index: -1;
             }
+            .table td, .table th {
+                background-color: #FFFFFF;
+                text-align: center;
+            }
+            .table thead th {
+                background-color: rgb(2 117 216);
+                border-bottom: none;
+                color: #FFFFFF;
+            }
+            @font-face {
+                font-family: DaggerSquare;
+            }
+
+            #podium-box {
+                margin: 0 auto;
+                display: flex;
+            }
+
+            .podium-number {
+                font-family: DaggerSquare;
+                font-weight: bold;
+                font-size: 4em;
+                color: white;
+            }
+
+            .step-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .step-container>div:first-child {
+                margin-top: auto;
+                text-align: center;
+            }
+
+            .step {
+                text-align: center;
+            }
+
+            .bg-blue {
+                background-color: #063b65;
+            }
+
+            #first-step {
+                height: 75%;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                z-index: 3;
+                box-shadow: 5px 0 30px 0 rgb(0 0 0 / 40%), -5px 0 30px 0px rgb(0 0 0 / 40%)
+            }
+
+            #second-step {
+                height: 55%;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                z-index: 2;
+            }
+
+            #third-step {
+                height: 45%;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                z-index: 1;
+            }
+
+            .quiz-medal {
+                margin: 30px 0 0 30px;
+            }
+
+            .quiz-medal {
+                position: relative;
+                margin-bottom: 16px;
+                margin-left: auto;
+                margin-right: auto;
+                justify-content: center;
+                display: flex;
+            }
+
+            .quiz-medal__circle {
+                font-family: "Roboto", sans-serif;
+                font-size: 50px;
+                font-weight: 700;
+                width: 120px;
+                height: 120px;
+                border-radius: 100%;
+                color: white;
+                text-align: center;
+                line-height: 100px;
+                vertical-align: middle;
+                position: relative;
+                border-width: 0.2em;
+                border-style: solid;
+                z-index: 1;
+                box-shadow: inset 0 0 0 #a7b2b8, 2px 2px 0 rgba(0, 0, 0, 0.08);
+                border-color: #edeff1;
+                text-shadow: 2px 2px 0 #98a6ad;
+                background: linear-gradient(to bottom right, #d1d7da 50%, #c3cbcf 50%);
+            }
+            .quiz-medal__circle.quiz-medal__circle--gold {
+                box-shadow: inset 0 0 0 #b67d05, 2px 2px 0 rgba(0, 0, 0, 0.08);
+                border-color: #fadd40;
+                text-shadow: 0 0 4px #9d6c04;
+                background: linear-gradient(to bottom right, #f9ad0e 50%, #e89f06 50%);
+            }
+            .quiz-medal__circle.quiz-medal__circle--silver {
+                box-shadow: inset 0 0 0 #a7b2b8, 2px 2px 0 rgba(0, 0, 0, 0.08);
+                border-color: #edeff1;
+                text-shadow: 0px 0px 4px #98a6ad;
+                background: linear-gradient(to bottom right, #939393 50%, #6d6d6d 50%);
+            }
+            .quiz-medal__circle.quiz-medal__circle--bronze {
+                box-shadow: inset 0 0 0 #955405, 2px 2px 0 rgba(0, 0, 0, 0.08);
+                border-color: #f7bb23;
+                text-shadow: 0 0 4px #7d4604;
+                background: linear-gradient(to bottom right, #df7e08 50%, #c67007 50%);
+            }
+
+            .quiz-medal__ribbon {
+                content: "";
+                display: block;
+                position: absolute;
+                border-style: solid;
+                border-width: 6px 10px;
+                width: 0;
+                height: 30px;
+                top: 115px;
+            }
+
+            .quiz-medal__ribbon--left {
+                border-color: #FC402D #FC402D transparent #FC402D;
+                margin-left: -20px;
+                transform: rotate(20deg) translateZ(-32px);
+            }
+
+            .quiz-medal__ribbon--right {
+                margin-left: 20px;
+                border-color: #f31903 #f31903 transparent #f31903;
+                transform: rotate(-20deg) translateZ(-48px);
+            }
         </style>
     </head>
     <body>
     @if($isAdmin)
     <div class="p-3 mt-auto mb-auto w-100">
-        <h1 style="text-align: center;">Félicitation <span style="font-size: xxx-large; font-weight: bold">{{$users[0]->name}}</span> tu es le grand gagnant avec <span style="font-size: xxx-large; font-weight: bold">{{$users[0]->score}} points !</span></h1>
-        <image style="margin: auto; display: flex; height: 200px;" src="https://images.assetsdelivery.com/compings_v2/jabkitticha/jabkitticha1607/jabkitticha160700396.jpg"></image>
-        <div style="display: flex;">
-            <div style="display: flex; flex-direction: column; margin-right: auto;">
-                <h3 style="text-align: center;">Félicitation <span style="font-size: xxx-large; font-weight: bold">{{$users[1]->name}}</span> tu es 2ème avec <span style="font-size: xxx-large; font-weight: bold">{{$users[1]->score}} points !</span></h3>
-                <image style="margin: auto; display: flex; height: 200px;" src="https://images.assetsdelivery.com/compings_v2/cookamoto/cookamoto1904/cookamoto190400013.jpg"></image>
+        <div id="podium-box" class="row" style="height: 800px; margin-top: 5%;">
+            <div class="col-md-4 step-container m-0 p-0">
+                <div style="padding: 5px; margin-right: 5%; margin-left: 5%; margin-bottom: 1%;">
+                    <h3 id="second" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[1]->name}}</span></h3>
+                </div>
+                <div id="second-step" class="bg-blue step centerBoth podium-number">
+                    <div class="quiz-medal">
+                        <div class="quiz-medal__circle quiz-medal__circle--silver">
+                            <span>
+                              2
+                            </span>
+                        </div>
+                        <div class="quiz-medal__ribbon quiz-medal__ribbon--left"></div>
+                        <div class="quiz-medal__ribbon quiz-medal__ribbon--right"></div>
+                    </div>
+                    <p style="font-size: 0.5em; margin-top: 100px;">{{$users[1]->score}} points</p>
+                </div>
+
             </div>
-            <div style="display: flex; flex-direction: column; margin-left: auto;">
-                <h3 style="text-align: center;">Félicitation <span style="font-size: xxx-large; font-weight: bold">{{$users[2]->name}}</span> tu es 3ème avec <span style="font-size: xxx-large; font-weight: bold">{{$users[2]->score}} points !</span></h3>
-                <image style="margin: auto; display: flex; height: 150px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS582ExGF6WVg-aLqv8BNkbL_j_3O_3qtckjQ&usqp=CAU"></image>
+            <div class="col-md-4 step-container m-0 p-0">
+                <div style="padding: 5px; margin-right: 5%; margin-left: 5%; margin-bottom: 1%;">
+                    <h1 id="winner" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[0]->name}}</span></h1>
+                </div>
+                <div id="first-step" class="bg-blue step centerBoth podium-number">
+                    <div class="quiz-medal">
+                        <div class="quiz-medal__circle quiz-medal__circle--gold">
+                            <span>
+                              1
+                            </span>
+                        </div>
+                        <div class="quiz-medal__ribbon quiz-medal__ribbon--left"></div>
+                        <div class="quiz-medal__ribbon quiz-medal__ribbon--right"></div>
+                    </div>
+                    <p style="font-size: 0.5em; margin-top: 100px;">{{$users[0]->score}} points</p>
+                </div>
+            </div>
+            <div class="col-md-4 step-container m-0 p-0">
+                <div style="padding: 5px; margin-right: 5%; margin-left: 5%; margin-bottom: 1%;">
+                    <h3 id="third" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[2]->name}}</span></h3>
+                </div>
+                <div id="third-step" class="bg-blue step centerBoth podium-number">
+                    <div class="quiz-medal">
+                        <div class="quiz-medal__circle quiz-medal__circle--bronze">
+                            <span>
+                              3
+                            </span>
+                        </div>
+                        <div class="quiz-medal__ribbon quiz-medal__ribbon--left"></div>
+                        <div class="quiz-medal__ribbon quiz-medal__ribbon--right"></div>
+                    </div>
+                    <p style="font-size: 0.5em; margin-top: 100px;">{{$users[2]->score}} points</p>
+                </div>
             </div>
         </div>
-            <table class="mt-3 table">
+
+            <table class="mt-3 table" id="others" style="display: none;">
             <thead>
             <tr>
                 <th scope="col">Position</th>
@@ -72,10 +255,30 @@
             <h1 style="z-index: 20; text-align: center; font-size: 92px;">{{$score}}</h1>
         </div>
     </div>
-    <canvas class="confetti" id="canvas"></canvas>
     @endif
+    <canvas class="confetti" id="canvas" @if($isAdmin) style="display: none;" @endif></canvas>
 
     <script>
+        let i = 0;
+        $(window).click(function() {
+            i++;
+            $('#canvas').css('display', 'block');
+            switch (i) {
+                case 1:
+                    $('#third').css('display', 'block');
+                    break;
+                case 2:
+                    $('#second').css('display', 'block');
+                    break;
+                case 3:
+                    $('#winner').css('display', 'block');
+                    break;
+                case 4:
+                    $('#others').css('display', 'table');
+                    break;
+            }
+        });
+
         //-----------Var Inits--------------
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");

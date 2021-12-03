@@ -58,11 +58,11 @@ use App\Http\Controllers\UsersController;
         return $next->next;
     });
     Route::get('/getRepondu', function () {
-        $rep = 1;
-        $repondu = DB::table('users')->where('repondu', 0)->get();
-        if (sizeof($repondu) !== 0)
-            $rep = 0;
-        return $rep;
+        $repondu = DB::table('users')->where('repondu', 0)->select('repondu')->first();
+        if (isset($repondu))
+            return 0;
+        else
+            return 1;
     });
 
     Route::post('/setRepondu', function (Request $request) {

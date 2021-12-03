@@ -15,6 +15,8 @@
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
+                background-color: #A5D0CF;
+                background-size: cover;
             }
             .answers {
                 border: 1px solid lightgray;
@@ -30,9 +32,35 @@
             #l1, #l2, #l3, #l4, #l5 {
                 opacity: 0;
             }
+            #snow {
+                animation: snow 10s linear infinite;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: none;
+                background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/49306/snow.png');
+                z-index: -1;
+            }
+            @keyframes snow {
+                0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+                50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+                100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+            }
+            .table td, .table th {
+                background-color: #FFFFFF;
+                text-align: center;
+            }
+            .table thead th {
+                background-color: rgb(2 117 216);
+                border-bottom: none;
+                color: #FFFFFF;
+            }
         </style>
     </head>
     <body class="antialiased">
+    <div id="snow"></div>
     <div class="container mt-5">
         @if($ready->next === 1)
             @if($isAdmin)
@@ -45,29 +73,30 @@
                         <label class="radio"> <input type="radio" name="Q{{$oldQuestions->id}}" value="0" checked="checked"> <span>0</span>
                         </label>
                     </div>
-                    @if(isset($questions->q2) && $questions->q2 !== "")
-                        @if(isset($questions->q1) && $questions->q1 !== "")
+                    {{$oldQuestions->q2}}
+                    @if(isset($oldQuestions->q2) && $oldQuestions->q2 !== "")
+                        @if(isset($oldQuestions->q1) && $oldQuestions->q1 !== "")
                         <div class="ans ml-2">
                             <label class="p-2 w-100 radio @if($oldQuestions->reponse===1) alert-success @else alert-danger @endif">
                                 <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q1}}" @if($oldQuestions->reponse===1) checked="checked" @endif> <span>{{$oldQuestions->q1}}</span>
                             </label>
                         </div>
                         @endif
-                        @if(isset($questions->q2) && $questions->q2 !== "")
+                        @if(isset($oldQuestions->q2) && $oldQuestions->q2 !== "")
                         <div class="ans ml-2">
                             <label class="p-2 w-100 radio @if($oldQuestions->reponse===2) alert-success @else alert-danger @endif">
                                 <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q2}}" @if($oldQuestions->reponse===2) checked="checked" @endif> <span>{{$oldQuestions->q2}}</span>
                             </label>
                         </div>
                         @endif
-                        @if(isset($questions->q3) && $questions->q3 !== "")
+                        @if(isset($oldQuestions->q3) && $oldQuestions->q3 !== "")
                         <div class="ans ml-2">
                             <label class="p-2 w-100 radio @if($oldQuestions->reponse===3) alert-success @else alert-danger @endif">
                                 <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q3}}" @if($oldQuestions->reponse===3) checked="checked" @endif> <span>{{$oldQuestions->q3}}</span>
                             </label>
                         </div>
                         @endif
-                        @if(isset($questions->q4) && $questions->q4 !== "")
+                        @if(isset($oldQuestions->q4) && $oldQuestions->q4 !== "")
                         <div class="ans ml-2">
                             <label class="p-2 w-100 radio @if($oldQuestions->reponse===4) alert-success @else alert-danger @endif">
                                 <input type="radio" name="Q{{$oldQuestions->id}}" value="{{$oldQuestions->q4}}" @if($oldQuestions->reponse===4) checked="checked" @endif> <span>{{$oldQuestions->q4}}</span>
@@ -77,7 +106,7 @@
                     @else
                     <div class="ans ml-2">
                         <label class="p-2 w-100 radio alert-success">
-                            <span>{{$oldQuestions->q1}}</span>
+                            <span style="font-size: 18px; font-weight: bold; padding-left: 20px;">{{$oldQuestions->q1}}</span>
                         </label>
                     </div>
                     @endif
@@ -166,9 +195,9 @@
             @else
             @if(!$isAdmin)<p><span style="font-weight: bold">Joueur</span> : {{$user->name}}</p>@endif
             <div style="text-align-last: center;" class="col-md-10 col-lg-10"><span id="time" style="font-size: 38px; margin-left: auto; margin-right: auto; width: auto;">30</span></div>
-            <div class="col-md-10 col-lg-10">
-                <div class="border">
-                    <div class="question p-3 border-bottom" style="background-color: rgb(2 117 216);">
+            <div>
+                <div class="">
+                    <div class="question p-3 border-bottom rounded-top" style="background-color: rgb(2 117 216);">
                         <div class="d-flex flex-row justify-content-between align-items-center mcq">
                             @if(!$isAdmin)<div><p style="margin-bottom: 0px; font-size: 24px; color: white;"><span style="font-weight: bold">Score</span> : {{isset($score)? $score : 0}}</p></div>@else<h4 style="color: white;">Quiz de Noël</h4>@endif
                             <span style="color: white;">({{$user->etape}} sur {{$nbrQuestions}})</span>
@@ -251,6 +280,13 @@
                     break;
             }
         }
+        $('#question1').on('keyup keypress', function(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
         document.addEventListener("keydown", my_onkeydown_handler);
         function onClickRadio(id){
             var q = 0;
@@ -278,7 +314,30 @@
             document.getElementById("questionDiv"+id).style.color = "#fff"
             document.getElementById("questionDiv"+id).style.fontWeight = "bold"
         }
-
+        @if($ready->next === 0)
+        function sendRequestRepondu(){
+            console.log(receive)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "/getRepondu",
+                success:
+                    function(data){
+                        console.log(data)
+                        if (data === "1") {
+                            $("#question").submit();
+                            receive = 1;
+                        }
+                    }
+            });
+        }
+            @if($isAdmin)
+                setInterval(sendRequestRepondu, 1000);
+            @endif
+        @endif
         function startTimer(duration, display) {
             var start = Date.now(),
                 diff,
@@ -313,6 +372,8 @@
                         success:
                             function(){
                                     send = 1;
+                                    if (receive === 0)
+                                        setInterval(sendRequestRepondu, 1000);
                             }
                     });
                     diff = 1;
@@ -330,29 +391,7 @@
                     $("#l"+i).delay(500).animate({"opacity": "1"}, 700);
                 else
                     $("#l"+i).delay(2000*i-1).animate({"opacity": "1"}, 700);
-        @if($ready->next === 0)
-            function sendRequestRepondu(){
-                console.log(receive)
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "/getRepondu",
-                    success:
-                        function(data){
-                            console.log(data)
-                            if (data === "1") {
-                                $("#question").submit();
-                                receive = 1;
-                            }
-                        }
-                });
-            }
-            if (receive === 0)
-                setInterval(sendRequestRepondu, 1000);
-        @endif
+
             @if($ready->go === 0 || $ready->next === 1)
             console.log('0 et 1')
                 @if($ready->go === 0)
@@ -388,7 +427,7 @@
             }
             @else
                 console.log('1 et 0')
-                var thirtySec = 25,
+                var thirtySec = 10,
                     display = document.querySelector('#time');
                 @if($isAdmin)
                     setTimeout(function() {

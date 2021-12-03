@@ -46,7 +46,7 @@ class UsersController extends Controller
                     $score = $score + 2;
                     $bonneRep = 1;
                     DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 2]);
-                } elseif ($input->input === $closest && $userScore == $user->score) {
+                } elseif (in_array($input->input, $closest) && $userScore == $user->score) {
                         DB::table('users')->where('id', $input->id)->update(['score' => $user->score + 1]);
                         $score++;
                         $bonneRep = 1;
@@ -88,7 +88,6 @@ class UsersController extends Controller
                                         'rep' => $rep,
                                         'rep2' => strval($oldQuestion->$goodRep),
                                         'oldQuestions'=>$oldQuestion,
-                                        'id' => $user->etape+1,
                                         'score' => $score,
                                         'bonneRep' => $bonneRep,
                                         'nbrQuestions' => DB::table('questions')->count(),
@@ -98,12 +97,23 @@ class UsersController extends Controller
 
     function getClosest($search, $arr) {
         $closest = null;
+        $closestBis = null;
+        $finalClosest= [];
         foreach ($arr as $item) {
             if ($closest === null || abs($search - $closest) > abs($item['input'] - $search)) {
                 $closest = $item['input'];
             }
         }
-        return $closest;
+        if ($closest !== $search) {
+            foreach ($arr as $item) {
+                if (($closestBis === null || abs($search - $closestBis) > abs($item['input'] - $search)) && $item['input'] != $closest) {
+                    $closestBis = $item['input'];
+                }
+            }
+            array_push($finalClosest, $closestBis);
+        }
+        array_push($finalClosest, $closest);
+        return $finalClosest;
     }
 
 }
