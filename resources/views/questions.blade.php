@@ -140,7 +140,7 @@
                     <div class="alert alert-warning mt-3" role="alert">
                         <h2>Tu as rafraichi la page ben bravo...</h2>
                 @endif
-                        <h3 class="mt-4">Tu as répondu <br/> <span style="font-size: 20px; font-weight: bold; font-family: 'Courier New'!important;">@if($rep != 0) {{$rep}} @else Tu n'as pas répondu @endif</span></h3>
+                        <h3 class="mt-4">Tu as répondu <br/> <span style="font-size: 20px; font-weight: bold; font-family: 'Courier New'!important;">@if($rep !== "0") {{$rep}} @else Tu n'as pas répondu @endif</span></h3>
                         <h3 class="mt-2 mb-3">La bonne réponse était <br/> <span style="font-size: 20px; font-weight: bold; font-family: 'Courier New'!important;">{{$rep2}}</span></h3>
                     </div>
                     <h1 class="pt-3" style="text-align: center;">Score</h1>
