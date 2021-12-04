@@ -127,6 +127,7 @@
                         @endforeach
                     </tbody>
                 </table>
+        @endif
                 <button class="btn alert-success mt-5" id="next">Prochaine question</button>
             @else
         <div>
