@@ -73,7 +73,6 @@
                         <label class="radio"> <input type="radio" name="Q{{$oldQuestions->id}}" value="0" checked="checked"> <span>0</span>
                         </label>
                     </div>
-                    {{$oldQuestions->q2}}
                     @if(isset($oldQuestions->q2) && $oldQuestions->q2 !== "")
                         @if(isset($oldQuestions->q1) && $oldQuestions->q1 !== "")
                         <div class="ans ml-2">
