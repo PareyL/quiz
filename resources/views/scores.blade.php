@@ -239,7 +239,7 @@
             @foreach($users as $key=>$u)
                 @if($key > 2)
                     <tr>
-                        <td>{{$key}}</td>
+                        <td>{{$key}}+1</td>
                         <td>{{$u->name}}</td>
                         <td>{{$u->score}}</td>
                     </tr>
