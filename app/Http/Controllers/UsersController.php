@@ -107,11 +107,10 @@ class UsersController extends Controller
             }
         }
         if ($closest !== $search) {
-            foreach ($arr as $item) {
-                if (($closestBis === null || abs($search - $closestBis) > abs($item['input'] - $search)) && $item['input'] != $closest) {
-                    $closestBis = $item['input'];
-                }
-            }
+            if ($closest > $search)
+                $closestBis = $search - ($closest - $search);
+            else
+                $closestBis = $search + ($search - $closest);
             array_push($finalClosest, $closestBis);
         }
         array_push($finalClosest, $closest);
