@@ -175,7 +175,7 @@
         <div id="podium-box" class="row" style="height: 800px; margin-top: 5%;">
             <div class="col-md-4 step-container m-0 p-0">
                 <div style="padding: 5px; margin-right: 5%; margin-left: 5%; margin-bottom: 1%;">
-                    <h3 id="second" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[1]->name}}</span></h3>
+                    <h3 class="second" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[1]->name}}</span></h3>
                 </div>
                 <div id="second-step" class="bg-blue step centerBoth podium-number">
                     <div class="quiz-medal">
@@ -187,13 +187,13 @@
                         <div class="quiz-medal__ribbon quiz-medal__ribbon--left"></div>
                         <div class="quiz-medal__ribbon quiz-medal__ribbon--right"></div>
                     </div>
-                    <p style="font-size: 0.5em; margin-top: 100px;">{{$users[1]->score}} points</p>
+                    <p class="second" style="font-size: 0.5em; margin-top: 100px; display: none;">{{$users[1]->score}} points</p>
                 </div>
 
             </div>
             <div class="col-md-4 step-container m-0 p-0">
                 <div style="padding: 5px; margin-right: 5%; margin-left: 5%; margin-bottom: 1%;">
-                    <h1 id="winner" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[0]->name}}</span></h1>
+                    <h1 class="winner" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[0]->name}}</span></h1>
                 </div>
                 <div id="first-step" class="bg-blue step centerBoth podium-number">
                     <div class="quiz-medal">
@@ -205,12 +205,12 @@
                         <div class="quiz-medal__ribbon quiz-medal__ribbon--left"></div>
                         <div class="quiz-medal__ribbon quiz-medal__ribbon--right"></div>
                     </div>
-                    <p style="font-size: 0.5em; margin-top: 100px;">{{$users[0]->score}} points</p>
+                    <p class="winner" style="font-size: 0.5em; margin-top: 100px; display: none;">{{$users[0]->score}} points</p>
                 </div>
             </div>
             <div class="col-md-4 step-container m-0 p-0">
                 <div style="padding: 5px; margin-right: 5%; margin-left: 5%; margin-bottom: 1%;">
-                    <h3 id="third" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[2]->name}}</span></h3>
+                    <h3 class="third" style="text-align: center; display: none;"><span style="font-size: xxx-large; font-weight: bold">{{$users[2]->name}}</span></h3>
                 </div>
                 <div id="third-step" class="bg-blue step centerBoth podium-number">
                     <div class="quiz-medal">
@@ -222,7 +222,7 @@
                         <div class="quiz-medal__ribbon quiz-medal__ribbon--left"></div>
                         <div class="quiz-medal__ribbon quiz-medal__ribbon--right"></div>
                     </div>
-                    <p style="font-size: 0.5em; margin-top: 100px;">{{$users[2]->score}} points</p>
+                    <p class="third" style="font-size: 0.5em; margin-top: 100px; display: none;">{{$users[2]->score}} points</p>
                 </div>
             </div>
         </div>
@@ -265,13 +265,13 @@
             $('#canvas').css('display', 'block');
             switch (i) {
                 case 1:
-                    $('#third').css('display', 'block');
+                    $('.third').css('display', 'block');
                     break;
                 case 2:
-                    $('#second').css('display', 'block');
+                    $('.second').css('display', 'block');
                     break;
                 case 3:
-                    $('#winner').css('display', 'block');
+                    $('.winner').css('display', 'block');
                     break;
                 case 4:
                     $('#others').css('display', 'table');
