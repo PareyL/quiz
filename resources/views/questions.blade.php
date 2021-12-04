@@ -324,9 +324,12 @@
             $.ajax({
                 url: "/getRepondu",
                 success:
-                    function(data){
+                    async function (data) {
                         console.log(data)
                         if (data === "1") {
+                        @if($isAdmin)
+                            await new Promise(r => setTimeout(r, 2000));
+                        @endif
                             $("#question").submit();
                             receive = 1;
                         }
