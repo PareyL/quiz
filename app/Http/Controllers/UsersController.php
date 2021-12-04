@@ -70,7 +70,7 @@ class UsersController extends Controller
         }
         $go = DB::table('ready')->first();
         if($isAdmin)
-            sleep(0.5);
+            sleep(0.8);
         $users = DB::table('users')->where('admin', 0)->orderBy('score', 'DESC')->get();
         if ($user->etape+1 > DB::table('questions')->count()+1)
             return view('scores', ['user'=> $user,
