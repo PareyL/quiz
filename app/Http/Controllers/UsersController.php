@@ -26,7 +26,6 @@ class UsersController extends Controller
         if(!Auth::user() || !Auth::check())
             return redirect('welcome');
         $bonneRep = 0;
-        $users = DB::table('users')->where('admin', 0)->orderBy('score', 'DESC')->get();
         $user = DB::table('users')->where('id', Auth::id())->first();
         $isAdmin = $user->admin;
         $score = $user->score;
@@ -70,6 +69,7 @@ class UsersController extends Controller
             $questions = DB::table('questions')->where('id', '=', $user->etape)->first();
         }
         $go = DB::table('ready')->first();
+        $users = DB::table('users')->where('admin', 0)->orderBy('score', 'DESC')->get();
         if ($user->etape+1 > DB::table('questions')->count()+1)
             return view('scores', ['user'=> $user,
                                         'users' => $users,

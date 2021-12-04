@@ -88,7 +88,6 @@ Route::get('/nextQuestion', function () {
     if(!Auth::user() || !Auth::check())
         return redirect('welcome');
     $bonneRep = 0;
-    $users = DB::table('users')->where('admin', 0)->orderBy('score', 'DESC')->get();
     $user = DB::table('users')->where('id', Auth::id())->first();
     $score = $user->score;
     $oldQuestion = DB::table('questions')->where('id', '=',$user->etape)->first();
@@ -106,6 +105,7 @@ Route::get('/nextQuestion', function () {
         $questions = DB::table('questions')->where('id', '=', $user->etape)->first();
     }
     $go = DB::table('ready')->first();
+    $users = DB::table('users')->where('admin', 0)->orderBy('score', 'DESC')->get();
     if ($user->etape+1 > DB::table('questions')->count()+1)
         return view('scores', ['user'=> $user,
             'users' => $users,
