@@ -114,8 +114,6 @@ class UsersController extends Controller
             array_push($finalClosest, $closestBis);
         }
         array_push($finalClosest, $closest);
-        var_dump($finalClosest);
-        die();
         return $finalClosest;
     }
 
