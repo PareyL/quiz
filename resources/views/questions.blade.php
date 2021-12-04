@@ -110,6 +110,7 @@
                     </div>
                     @endif
                 </div>
+        @if($user->etape <= $nbrQuestions-3)
                 <table class="mt-3 table">
                     <thead>
                     <tr>
