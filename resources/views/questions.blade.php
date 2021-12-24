@@ -431,7 +431,7 @@
             }
             @else
                 console.log('1 et 0')
-                var thirtySec = 10,
+                var thirtySec = 30,
                     display = document.querySelector('#time');
                 @if($isAdmin)
                     setTimeout(function() {
