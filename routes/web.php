@@ -22,6 +22,9 @@ use App\Http\Controllers\UsersController;
     Route::get('/welcome', function () {
         return view('welcome');
     });
+    Route::get('/tournoi', function () {
+        return view('tournament');
+    });
 
     Route::get('/questions/{id}', function ($id) {
         if(!Auth::user())
